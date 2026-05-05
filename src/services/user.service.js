@@ -95,7 +95,7 @@ class UserService {
     } catch (error) {
       await User.deleteOne({ _id: user._id });
       await client.del(`otp:${email}`);
-      console.log("Signup verification email failed:",error);
+      console.log("Signup verification email failed:", error);
       throw new ApiError(
         500,
         "We could not send the verification email. Please try again later.",

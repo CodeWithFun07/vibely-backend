@@ -1,6 +1,18 @@
+import { createTransport } from "nodemailer";
+import dotenv from "dotenv";
 
-import {Resend} from "resend"
+dotenv.config();
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const emailPort = Number(process.env.EMAIL_PORT) || 587;
+const transporter = createTransport({
+  host: process.env.EMAIL_HOST,
+  port: emailPort,
+  secure: emailPort === 465,
+  auth: {
+    user: process.env.SMTP_USER,
+    pass: process.env.SMTP_PASSWORD,
+  },
+  family: 4,
+});
 
-export default resend
+export default transporter;

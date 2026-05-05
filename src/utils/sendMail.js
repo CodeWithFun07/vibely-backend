@@ -1,21 +1,24 @@
-import resend from "../config/nodemailer.config.js";
+import transporter from "../config/nodemailer.config.js";
 
 const sendMail = async ({ to, subject, html }) => {
   try {
-    const { data, error } = await resend.emails.send({
-      from: "onboarding@resend.dev",
+    const res = await transporter.sendMail({
+      from: process.env.SMTP_USER,
       to,
       subject,
       html,
     });
-
-    if (error) {
-      console.error("Error sending email:", error);
-      throw new Error(error.message);
+    if (
+      !res ||
+      !Array.isArray(res.accepted) ||
+      res.accepted.length === 0
+    ) {
+      const msg =
+        res?.response ||
+        "SMTP did not accept the message (no accepted recipients).";
+      throw new Error(msg);
     }
-
-    console.log("Email sent successfully:", data);
-    return data;
+    return res;
   } catch (error) {
     console.error("Error sending email:", error?.message || error);
     throw error;
