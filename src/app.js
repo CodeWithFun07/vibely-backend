@@ -92,14 +92,6 @@ app.use((req, res) => {
   });
 });
 
-transporter.verify((error, success) => {
-  if (error) {
-    console.error("SMTP Connection Failed:", error);
-  } else {
-    console.log("SMTP Ready to send emails", success);
-  }
-});
-
 // Global Error Handler
 app.use(errorHandler);
 
