@@ -85,14 +85,17 @@ class UserService {
     await user.save();
 
     try {
-      await sendMail({
+      const mail = await sendMail({
         to: email,
         subject: "verify your email",
         html: verifySignupEmailTemplate(username, otp, email),
       });
-    } catch {
+
+      console.log("Signup verification email sent:", mail);
+    } catch (error) {
       await User.deleteOne({ _id: user._id });
       await client.del(`otp:${email}`);
+      console.log("Signup verification email failed:",error);
       throw new ApiError(
         500,
         "We could not send the verification email. Please try again later.",
