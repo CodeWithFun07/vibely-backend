@@ -17,6 +17,7 @@ const transporter = createTransport({
   },
   connectionTimeout: 10000,
   socketTimeout: 10000,
+  family: 4,
 });
 
 export default transporter;
