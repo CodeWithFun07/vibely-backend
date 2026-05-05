@@ -85,17 +85,14 @@ class UserService {
     await user.save();
 
     try {
-      const mail = await sendMail({
+      await sendMail({
         to: email,
         subject: "verify your email",
         html: verifySignupEmailTemplate(username, otp, email),
       });
-
-      console.log("Signup verification email sent:", mail);
-    } catch (error) {
+    } catch {
       await User.deleteOne({ _id: user._id });
       await client.del(`otp:${email}`);
-      console.log("Signup verification email failed:", error);
       throw new ApiError(
         500,
         "We could not send the verification email. Please try again later.",
@@ -673,8 +670,8 @@ class UserService {
 
     const user = await User.findById(userId);
 
-    if (!userId) {
-      throw new ApiError(403, "user not found");
+    if (!user) {
+      throw new ApiError(404, "user not found");
     }
 
     const storedOtp = await client.get(`reactivate:${user.email}`);

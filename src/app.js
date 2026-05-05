@@ -19,7 +19,6 @@ import notificationRoutes from "./routes/notification.route.js";
 import reportRoutes from "./routes/report.route.js";
 import messageRoutes from "./routes/message.route.js";
 import chatRoutes from "./routes/chat.route.js";
-import transporter from "./config/nodemailer.config.js";
 
 const app = express();
 const server = http.createServer(app);
