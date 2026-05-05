@@ -40,7 +40,10 @@ const toggleLike = asyncHandler(async (req, res) => {
         );
         // Emit real-time notification
         if (notification) {
+          console.log('🔔 Emitting like notification to user:', postOwnerId.toString());
           emitNotification(postOwnerId.toString(), notification);
+        } else {
+          console.warn('⚠️ Notification not created - user might have disabled notifications');
         }
       }
     } catch (error) {
