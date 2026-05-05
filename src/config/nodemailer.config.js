@@ -12,7 +12,11 @@ const transporter = createTransport({
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASSWORD,
   },
-  family: 4,
+  tls: {
+    rejectUnauthorized: false,
+  },
+  connectionTimeout: 10000,
+  socketTimeout: 10000,
 });
 
 export default transporter;
